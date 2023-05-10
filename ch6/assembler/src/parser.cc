@@ -30,6 +30,8 @@ void Parser::advance(void)
     std::string cur_line;
     size_t      startpos = 0, endpos;
 
+    m_symbol = m_dest = m_jump = m_comp = "";
+
     for (;;) {
         // keep advancing if cur_line is empty str or comment
         if (m_commands.empty()) {

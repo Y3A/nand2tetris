@@ -19,7 +19,6 @@ enum class Status
 
 class Parser
 {
-
 public:
     explicit Parser(std::string &fileName);
     bool hasMoreCommands(void);
