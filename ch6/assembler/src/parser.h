@@ -3,26 +3,27 @@
 #include <string>
 #include <list>
 
-enum class CommandType
-{
-    A_COMMAND,
-    C_COMMAND,
-    L_COMMAND,
-};
-
-enum class Status
-{
-    PARSER_WORKING,
-    PARSER_ERR,
-    PARSER_EOF,
-};
-
 class Parser
 {
 public:
-    explicit Parser(std::string &fileName);
+    enum class CommandType
+    {
+        A_COMMAND,
+        C_COMMAND,
+        L_COMMAND,
+    };
+
+    enum class Status
+    {
+        PARSER_WORKING,
+        PARSER_ERR,
+        PARSER_EOF,
+    };
+
+    explicit Parser(const std::string &fileName);
     bool hasMoreCommands(void);
     void advance(void);
+    void reset(void);
 
     CommandType commandType(void) { return m_command_type; };
     std::string symbol(void) { return m_symbol; };
@@ -30,7 +31,7 @@ public:
     std::string comp(void) { return m_comp; };
     std::string jump(void) { return m_jump; };
 
-    Status m_status;
+    Status status;
 
  private:
     std::list<std::string> m_commands;

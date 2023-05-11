@@ -57,17 +57,17 @@ namespace Code
         {"D|M", "1010101"},
     };
 
-    std::string dest(std::string mnemonic)
+    std::string dest(const std::string &mnemonic)
     {   
         return desttable[mnemonic];
     }
 
-    std::string jump(std::string mnemonic)
+    std::string jump(const std::string &mnemonic)
     {
         return jumptable[mnemonic];
     }
 
-    std::string comp(std::string mnemonic)
+    std::string comp(const std::string &mnemonic)
     {
         return comptable[mnemonic];
     }

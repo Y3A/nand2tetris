@@ -3,20 +3,20 @@
 
 #include "parser.h"
 
-Parser::Parser(std::string &fileName)
+Parser::Parser(const std::string &fileName)
 {
     std::ifstream file_stream(fileName);
     std::string   cur_line;
 
     if (file_stream.fail()) {
-        m_status = Status::PARSER_ERR;
+        status = Status::PARSER_ERR;
         return;
     }
     
     while (std::getline(file_stream, cur_line))
         m_commands.push_back(cur_line);
 
-    m_status = Status::PARSER_WORKING;
+    status = Status::PARSER_WORKING;
     return;
 }
 
@@ -35,7 +35,7 @@ void Parser::advance(void)
     for (;;) {
         // keep advancing if cur_line is empty str or comment
         if (m_commands.empty()) {
-            m_status = Status::PARSER_EOF;
+            status = Status::PARSER_EOF;
             return;
         }
         
@@ -49,6 +49,9 @@ void Parser::advance(void)
     // remove all white spaces
     cur_line.erase(std::remove_if(cur_line.begin(), cur_line.end(), isspace), cur_line.end());
 
+    // remove comments
+    cur_line = cur_line.substr(0, cur_line.find("//"));
+
     // process cur_line
     switch (cur_line[0])
     {
@@ -58,7 +61,7 @@ void Parser::advance(void)
             endpos = cur_line.find(')');
             if (endpos == std::string::npos) {
                 // malformed syntax
-                m_status = Status::PARSER_ERR;
+                status = Status::PARSER_ERR;
                 return;
             }
             m_symbol = cur_line.substr(1, endpos - 1);
@@ -91,7 +94,7 @@ void Parser::advance(void)
 
     if (endpos >= cur_line.size()) {
         // malformed syntax
-        m_status = Status::PARSER_ERR;
+        status = Status::PARSER_ERR;
         return;
     }
 
@@ -105,7 +108,7 @@ void Parser::advance(void)
         startpos = endpos + 1;
         if (startpos >= cur_line.size()) {
             // malformed syntax
-            m_status = Status::PARSER_ERR;
+            status = Status::PARSER_ERR;
             return;
         }
 
