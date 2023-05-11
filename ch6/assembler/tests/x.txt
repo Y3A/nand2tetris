@@ -1,4 +1,0 @@
-@duck
-(one)
-D=M+1
-C=A+2;JMP
